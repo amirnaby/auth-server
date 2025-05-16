@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class LoginAttemptService {
-
     public static final int MAX_ATTEMPT = 10;
     private final LoadingCache<String, Integer> attemptsCache = CacheBuilder.newBuilder().expireAfterWrite(1, TimeUnit.DAYS).build(new CacheLoader<>() {
         @Override

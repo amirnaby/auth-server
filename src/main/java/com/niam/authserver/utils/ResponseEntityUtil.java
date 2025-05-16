@@ -1,8 +1,8 @@
 package com.niam.authserver.utils;
 
-import com.niam.authserver.web.response.ResultResponse;
-import com.niam.authserver.web.response.ResultLevel;
 import com.niam.authserver.web.exception.ResultResponseStatus;
+import com.niam.authserver.web.response.ResultLevel;
+import com.niam.authserver.web.response.ResultResponse;
 import com.niam.authserver.web.response.ServiceResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,14 +13,6 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class ResponseEntityUtil {
 
-    public  org.springframework.http.ResponseEntity<ServiceResponse> ok(Object data) {
-        //prepare response
-        ServiceResponse response=new ServiceResponse();
-        response.setData(data);
-        ResultResponse resultResponse = new ResultResponse();
-        return getServiceResponseResponseEntity(response, resultResponse);
-    }
-
     private static ResponseEntity<ServiceResponse> getServiceResponseResponseEntity(ServiceResponse response, ResultResponse resultResponse) {
         resultResponse.setStatus(HttpStatus.OK.value());
         resultResponse.setResultStatus(ResultResponseStatus.SUCCESS);
@@ -30,15 +22,21 @@ public class ResponseEntityUtil {
         return ResponseEntity.ok(response);
     }
 
-    public  org.springframework.http.ResponseEntity<ServiceResponse> ok() {
-        //prepare response
-        ServiceResponse response=new ServiceResponse();
+    public org.springframework.http.ResponseEntity<ServiceResponse> ok(Object data) {
+        ServiceResponse response = new ServiceResponse();
+        response.setData(data);
         ResultResponse resultResponse = new ResultResponse();
         return getServiceResponseResponseEntity(response, resultResponse);
     }
+
+    public org.springframework.http.ResponseEntity<ServiceResponse> ok() {
+        ServiceResponse response = new ServiceResponse();
+        ResultResponse resultResponse = new ResultResponse();
+        return getServiceResponseResponseEntity(response, resultResponse);
+    }
+
     private org.springframework.http.ResponseEntity<ServiceResponse> badRequest(Object data) {
-        //prepare response
-        ServiceResponse response=new ServiceResponse();
+        ServiceResponse response = new ServiceResponse();
         response.setData(data);
         ResultResponse resultResponse = new ResultResponse();
         resultResponse.setStatus(HttpStatus.BAD_REQUEST.value());

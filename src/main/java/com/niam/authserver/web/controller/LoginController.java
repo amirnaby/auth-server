@@ -6,11 +6,11 @@ import com.niam.authserver.service.CaptchaService;
 import com.niam.authserver.service.LoginHandler;
 import com.niam.authserver.service.LoginService;
 import com.niam.authserver.utils.ResponseEntityUtil;
-import com.niam.authserver.web.dto.*;
 import com.niam.authserver.web.dto.LoginDto;
 import com.niam.authserver.web.dto.LogoutDto;
 import com.niam.authserver.web.request.TokenRefreshRequest;
 import com.niam.authserver.web.response.ServiceResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -31,7 +30,6 @@ public class LoginController {
     private final LoginService loginService;
     private final LoginHandler loginHandler;
     private final ResponseEntityUtil responseEntityUtil;
-
 
     @PostMapping("/login")
     public ResponseEntity<ServiceResponse> login(final HttpServletRequest request, @RequestBody LoginDto loginDto) {
@@ -51,8 +49,6 @@ public class LoginController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<ServiceResponse> refreshToken(@Valid @RequestBody TokenRefreshRequest request) {
-
-
         return responseEntityUtil.ok(loginHandler.getTokenByRefreshToken(request));
     }
 

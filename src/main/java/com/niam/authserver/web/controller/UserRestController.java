@@ -17,7 +17,6 @@ import java.util.Set;
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 public class UserRestController {
-
     private final ActiveUserStore activeUserStore;
     private final UserService userService;
     private final ResponseEntityUtil responseEntityUtil;
@@ -34,7 +33,7 @@ public class UserRestController {
 
     @PutMapping("/{username}")
     public ResponseEntity<ServiceResponse> updateRolesOfUser(@PathVariable String username, @RequestBody Map<String, Object> request) {
-        userService.saveRegisteredUser(username,request);
+        userService.saveRegisteredUser(username, request);
         return responseEntityUtil.ok();
     }
 

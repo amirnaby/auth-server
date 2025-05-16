@@ -18,13 +18,10 @@ import java.util.Collection;
 @Component
 @RequiredArgsConstructor
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
-
-    private boolean alreadySetup = false;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
-    // API
+    private boolean alreadySetup = false;
 
     @Override
     @Transactional
@@ -36,9 +33,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         final Role adminRole = createRoleIfNotFound("ROLE_ADMIN");
         final Role userRole = createRoleIfNotFound("ROLE_USER");
         createRoleIfNotFound("ROLE_CHANGE_PASSWORD");
-
         createUserIfNotFound("admin", "admin", "admin", "admin", new ArrayList<>(Arrays.asList(adminRole, userRole)));
-
         alreadySetup = true;
     }
 
@@ -69,5 +64,4 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         }
         return userRepository.save(user);
     }
-
 }

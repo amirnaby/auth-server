@@ -5,13 +5,11 @@ import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.jdbc.JdbcAclService;
 import org.springframework.security.acls.jdbc.LookupStrategy;
 import org.springframework.security.acls.model.Acl;
-import org.springframework.security.acls.model.NotFoundException;
 import org.springframework.security.acls.model.ObjectIdentity;
 import org.springframework.security.acls.model.Sid;
 
 import javax.sql.DataSource;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,13 +17,13 @@ import java.util.stream.Collectors;
 public class CustomizedAclService extends JdbcAclService {
     private final static String FIND_ALL_ACL_OBJECT_IDENTITY_BY_TYPE_AND_SID =
             "select a.id from acl_object_identity a" +
-            "    where a.object_id_class = (select b.id from acl_class b where b.class=?)" +
-            "      and a.owner_sid in (" +
-            "        select c.id from acl_sid c where c.sid in ?" +
-            "    )";
+                    "    where a.object_id_class = (select b.id from acl_class b where b.class=?)" +
+                    "      and a.owner_sid in (" +
+                    "        select c.id from acl_sid c where c.sid in ?" +
+                    "    )";
     private static final String FIND_ALL_OBJECT_IDENTITY_ID_BY_TYPE =
             "select distinct a.object_id_identity from acl_object_identity a" +
-            "    where a.object_id_class = (select b.id from acl_class b where b.class=?)";
+                    "    where a.object_id_class = (select b.id from acl_class b where b.class=?)";
     private LookupStrategy lookupStrategy;
 
     public CustomizedAclService(DataSource dataSource, LookupStrategy lookupStrategy) {

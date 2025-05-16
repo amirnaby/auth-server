@@ -5,10 +5,9 @@ import com.niam.authserver.web.dto.LoginDto;
 import com.niam.authserver.web.dto.LogoutDto;
 import com.niam.authserver.web.request.TokenRefreshRequest;
 import com.niam.authserver.web.response.TokenRefreshResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 public interface LoginHandler {
     JwtResponse authenticate(LoginDto loginDto, HttpServletRequest request);
@@ -18,7 +17,8 @@ public interface LoginHandler {
     boolean logout(Authentication authentication);
 
     void validateToken(LogoutDto logoutDto, HttpServletRequest request);
-    JwtResponse generateAndCacheToken(UserDetails userDetails) ;
-    TokenRefreshResponse getTokenByRefreshToken(TokenRefreshRequest request);
 
-    }
+    JwtResponse generateAndCacheToken(UserDetails userDetails);
+
+    TokenRefreshResponse getTokenByRefreshToken(TokenRefreshRequest request);
+}

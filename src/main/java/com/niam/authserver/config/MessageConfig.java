@@ -1,6 +1,5 @@
 package com.niam.authserver.config;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,14 +10,8 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import java.util.Locale;
 
-/**
- * @Author A.Fallah
- * @Date 2023/11/07
- * @since version 1.0.0
- * @Email Fallah.Arsalan@gmail.com *
- */
 @Configuration
-public class MessageConfig implements WebMvcConfigurer{
+public class MessageConfig implements WebMvcConfigurer {
     @Value("${defaultLocale.language}")
     private String defaultLang;
     @Value("${defaultLocale.country}")
@@ -49,5 +42,4 @@ public class MessageConfig implements WebMvcConfigurer{
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
-
 }

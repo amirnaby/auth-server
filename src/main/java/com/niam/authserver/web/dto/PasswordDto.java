@@ -7,7 +7,6 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class PasswordDto {
-
     @NotNull
     private String username;
 
@@ -17,5 +16,4 @@ public class PasswordDto {
     @ValidPassword
     @NotNull
     private String newPassword;
-
 }

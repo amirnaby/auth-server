@@ -6,7 +6,6 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 public class UserValidator implements Validator {
-
     @Override
     public boolean supports(final Class<?> clazz) {
         return UserDto.class.isAssignableFrom(clazz);
@@ -19,5 +18,4 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "message.password", "Password is required.");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "message.username", "UserName is required.");
     }
-
 }

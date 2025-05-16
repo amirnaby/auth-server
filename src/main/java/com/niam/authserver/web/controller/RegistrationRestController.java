@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -23,21 +22,17 @@ public class RegistrationRestController {
     private final UserService userService;
     private final ResponseEntityUtil responseEntityUtil;
 
-    // Registration
     @PostMapping(value = "/user/registration")
-    public ResponseEntity<ServiceResponse> registerUserAccount(@RequestBody @Valid UserDto accountDto){
+    public ResponseEntity<ServiceResponse> registerUserAccount(@RequestBody @Valid UserDto accountDto) {
         LOGGER.debug("Registering user account with information: {}", accountDto);
         return responseEntityUtil.ok(userService.registerNewUserAccount(accountDto));
     }
 
-    // Reset password
     @GetMapping("/user/resetPassword")
     public ResponseEntity<ServiceResponse> resetPassword(@RequestParam("username") final String username) {
-       return responseEntityUtil.ok(userService.resetUserPassword(username));
-
+        return responseEntityUtil.ok(userService.resetUserPassword(username));
     }
 
-    // Change user password
     @PostMapping("/user/updatePassword")
     @PreAuthorize("hasRole('ROLE_CHANGE_PASSWORD')")
     public ResponseEntity<ServiceResponse> changeUserPassword(@RequestBody @Valid PasswordDto passwordDto) {

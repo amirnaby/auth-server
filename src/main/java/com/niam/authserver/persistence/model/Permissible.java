@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "permissible")
-@Inheritance(strategy=InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
 public abstract class Permissible {
     @Id
@@ -16,4 +16,3 @@ public abstract class Permissible {
 
     public abstract Class<?> getType();
 }
-

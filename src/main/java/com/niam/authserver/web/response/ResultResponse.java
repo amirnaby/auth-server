@@ -1,12 +1,12 @@
 package com.niam.authserver.web.response;
 
-import java.io.Serializable;
-
 import com.niam.authserver.web.exception.ResultResponseStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serializable;
 
 @Setter
 @Getter
@@ -36,13 +36,10 @@ public class ResultResponse implements Serializable {
     public ResultLevel getResultLevel(ResultResponseStatus resultStatus) {
         if (resultStatus == ResultResponseStatus.SUCCESS) {
             return ResultLevel.INFO;
-        }
-        else if (resultStatus == ResultResponseStatus.FAILURE) {
+        } else if (resultStatus == ResultResponseStatus.FAILURE) {
             return ResultLevel.BLOCKER;
-        }
-        else {
+        } else {
             return ResultLevel.WARN;
         }
     }
-
 }

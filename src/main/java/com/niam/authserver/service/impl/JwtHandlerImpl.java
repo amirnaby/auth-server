@@ -26,21 +26,19 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-
 @Component
 @RequiredArgsConstructor
 public class JwtHandlerImpl implements JwtHandler {
-    @Value("${sms-panel.security.jwt-refresh-expiration-second}")
-    private Long refreshTokenDuration;
-    @Value("${sms-panel.security.jwt-secret}")
-    private String jwtSecret;
-    @Value("${sms-panel.security.jwt-expiration-second}")
-    private Long jwtExpiration;
     private final MessageUtil messageUtil;
     private final CacheService cacheService;
-
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
+    @Value("${auth-server.security.jwt-refresh-expiration-second}")
+    private Long refreshTokenDuration;
+    @Value("${auth-server.security.jwt-secret}")
+    private String jwtSecret;
+    @Value("${auth-server.security.jwt-expiration-second}")
+    private Long jwtExpiration;
 
     @Override
     public String validateJwtAndGetUsername(String token) {
@@ -57,13 +55,13 @@ public class JwtHandlerImpl implements JwtHandler {
         token = token.replace("Bearer ", "");
         if (jwtResponse == null || !jwtResponse.getAccessToken().equals(token))
             throw new InvalidTokenException(
-                    messageUtil.getMessage("auth.message.invalidToken" ));
+                    messageUtil.getMessage("auth.message.invalidToken"));
     }
 
     @Override
     public JwtResponse generateJwtResponse(UserDetails userDetails) {
         String jwt = generateTokenFromUsername(userDetails);
-        return new JwtResponse(jwt, "Bearer",null, jwtExpiration);
+        return new JwtResponse(jwt, "Bearer", null, jwtExpiration);
     }
 
     private Jws<Claims> buildJwtIfValid(String token) {
@@ -80,7 +78,7 @@ public class JwtHandlerImpl implements JwtHandler {
     public String generateTokenFromUsername(UserDetails userDetails) {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setIssuer("sms-panel")
+                .setIssuer("auth-server")
                 .setSubject(userDetails.getUsername())
                 .claim("roles", userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
                 .setIssuedAt(new Date())
@@ -89,12 +87,9 @@ public class JwtHandlerImpl implements JwtHandler {
                 .compact();
     }
 
-
     @Transactional
     public int deleteByUserName(String username) {
         User user = userRepository.findByUsername(username);
         return refreshTokenRepository.deleteByUser(userRepository.findById(user.getId()).get());
     }
-
-
 }

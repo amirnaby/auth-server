@@ -16,6 +16,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class CustomSimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final ActiveUserStore activeUserStore;
+
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         handle(request, response, authentication);
         addToLoggedUsers(request, authentication);

@@ -1,9 +1,8 @@
 package com.niam.authserver.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
-
 import jakarta.persistence.*;
+import lombok.*;
 
 @Builder
 @Getter

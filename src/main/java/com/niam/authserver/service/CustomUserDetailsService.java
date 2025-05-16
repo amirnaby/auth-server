@@ -13,9 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("userDetailsService")
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
-
     private final UserRepository userRepository;
-
     private final LoginAttemptService loginAttemptService;
 
     @Override
@@ -29,5 +27,4 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         return user;
     }
-
 }

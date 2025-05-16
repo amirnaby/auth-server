@@ -1,9 +1,10 @@
 package com.niam.authserver.aop;
 
-import com.niam.authserver.aop.annotation.FiltersPermission;
-import com.niam.authserver.config.acl.AclPermissionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.niam.authserver.aop.annotation.FiltersPermission;
+import com.niam.authserver.config.acl.AclPermissionHandler;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.PostConstruct;
 import java.util.*;
 
 @Aspect

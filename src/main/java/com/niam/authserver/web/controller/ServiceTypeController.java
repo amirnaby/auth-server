@@ -5,12 +5,11 @@ import com.niam.authserver.persistence.model.ServiceType;
 import com.niam.authserver.utils.MessageUtil;
 import com.niam.authserver.utils.ResponseEntityUtil;
 import com.niam.authserver.web.response.ServiceResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,8 +17,8 @@ import jakarta.persistence.EntityNotFoundException;
 public class ServiceTypeController {
     private final ServiceTypeRepository serviceTypeRepository;
     private final MessageUtil messageSource;
-
     private final ResponseEntityUtil responseEntityUtil;
+
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ServiceResponse> saveServiceType(@RequestBody ServiceType serviceType) {
@@ -30,7 +29,7 @@ public class ServiceTypeController {
 
     @DeleteMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<ServiceResponse> deleteServiceType(@RequestBody ServiceType serviceType){
+    public ResponseEntity<ServiceResponse> deleteServiceType(@RequestBody ServiceType serviceType) {
         serviceTypeRepository.delete(serviceType);
         return responseEntityUtil.ok("ServiceType deleted");
     }

@@ -1,10 +1,10 @@
 package com.niam.authserver.persistence.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.*;
 import java.util.Collection;
 
 @Builder
@@ -25,13 +25,13 @@ public class User extends Permissible implements UserDetails {
     private String phone;
     @Column(length = 60)
     private String password;
-//    @Column(columnDefinition = "NUMBER(1)")
+    //    @Column(columnDefinition = "NUMBER(1)")
     private boolean enabled;
-//    @Column(columnDefinition = "NUMBER(1)")
+    //    @Column(columnDefinition = "NUMBER(1)")
     private boolean accountNonLocked;
-//    @Column(columnDefinition = "NUMBER(1)")
+    //    @Column(columnDefinition = "NUMBER(1)")
     private boolean accountNonExpired;
-//    @Column(columnDefinition = "NUMBER(1)")
+    //    @Column(columnDefinition = "NUMBER(1)")
     private boolean credentialsNonExpired;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "pnl_um_users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

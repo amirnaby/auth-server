@@ -19,13 +19,14 @@ import java.util.UUID;
 public class CaptchaServiceImpl implements CaptchaService {
     private final CacheService cacheService;
     private final MessageUtil messageUtil;
+
     @Override
     public void validate(String token, String input) {
         Cache captchaCache = cacheService.getCache(SmsPanelRepository.CAPTCHA_CACHE);
         String cachedInput = captchaCache.get(token, String.class);
         captchaCache.evictIfPresent(token);
         if (input == null || !input.equals(cachedInput)) {
-            throw new CaptchaIsWrongException(messageUtil.getMessage("message.invalidReCaptcha" ));
+            throw new CaptchaIsWrongException(messageUtil.getMessage("message.invalidReCaptcha"));
         }
     }
 

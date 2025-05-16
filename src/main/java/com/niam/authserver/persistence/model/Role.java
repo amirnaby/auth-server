@@ -1,10 +1,9 @@
 package com.niam.authserver.persistence.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-
-import jakarta.persistence.*;
 
 @SequenceGenerator(name = "acl_sid_sequence", sequenceName = "acl_sid_sequence", allocationSize = 1)
 @Entity

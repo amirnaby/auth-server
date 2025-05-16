@@ -2,10 +2,14 @@ package com.niam.authserver.filter;
 
 import com.niam.authserver.service.JwtHandler;
 import com.niam.authserver.web.exception.InvalidTokenException;
-import com.niam.authserver.web.exception.TokenException;
 import com.niam.authserver.web.exception.ResultResponseStatus;
+import com.niam.authserver.web.exception.TokenException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,17 +19,12 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
     private final JwtHandler jwtHandler;
-
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     public JwtAuthFilter(UserDetailsService userDetailsService, JwtHandler jwtHandler, HandlerExceptionResolver handlerExceptionResolver) {
@@ -37,7 +36,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-
             String jwt = parseJwt(request);
             if (jwt != null) {
                 String username = jwtHandler.validateJwtAndGetUsername(jwt);
@@ -53,13 +51,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (AccessDeniedException ade) {
             handlerExceptionResolver.resolveException(request, response, null, ade);
-        } catch ( SignatureException ade) {
+        } catch (SignatureException ade) {
             logger.error(ade);
             TokenException tokenException = new TokenException(String.valueOf(
                     ResultResponseStatus.TOKEN_SIGNATURE_EXCEPTION.getStatus()),
                     ResultResponseStatus.TOKEN_SIGNATURE_EXCEPTION.getDescription());
             handlerExceptionResolver.resolveException(request, response, null, tokenException);
-
         } catch (InvalidTokenException ade) {
             logger.error(ade);
             TokenException tokenException = new TokenException(String.valueOf(

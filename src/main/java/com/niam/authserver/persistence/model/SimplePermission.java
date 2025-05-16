@@ -24,6 +24,7 @@ public enum SimplePermission {
     public int getCode() {
         return code;
     }
+
     public char getMask() {
         return mask;
     }

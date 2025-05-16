@@ -15,6 +15,7 @@ import static org.springframework.http.HttpStatus.EXPECTATION_FAILED;
 @AllArgsConstructor
 public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler {
     private final MessageUtil messageUtil;
+
     @ExceptionHandler({ApplicationException.class})
     public ResponseEntity<ErrorResponse> handleApplicationException(ApplicationException e) {
         logger.info("handle Application exception");
@@ -41,8 +42,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
 
     @ExceptionHandler({UserMustChangePasswordException.class})
     public ResponseEntity<ErrorResponse> handleUserMustChangePasswordException(UserMustChangePasswordException e) {
-        logger.error("User Must Change Password Exception with error message {}",e);
-
+        logger.error("User Must Change Password Exception with error message {}", e);
         return ResponseEntity.status(EXPECTATION_FAILED).body(
                 ErrorResponse.builder()
                         .code(e.getCode())
@@ -50,10 +50,10 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
                         .build()
         );
     }
+
     @ExceptionHandler({InvalidTokenException.class})
     public ResponseEntity<ErrorResponse> handleInvalidTokenException(InvalidTokenException e) {
-        logger.error("handle InvalidToken exception with error message {}",e);
-
+        logger.error("handle InvalidToken exception with error message {}", e);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 ErrorResponse.builder()
                         .code(e.getCode())
@@ -61,9 +61,9 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
                         .build()
         );
     }
+
     @ExceptionHandler(TokenException.class)
     public ResponseEntity<Object> handleTokenException(TokenException ex) {
-
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 ErrorResponse.builder()
                         .code(String.valueOf(ex.getCode()))
@@ -71,6 +71,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
                         .build()
         );
     }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         logger.info("handle exception");

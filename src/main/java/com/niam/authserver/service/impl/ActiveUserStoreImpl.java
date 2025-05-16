@@ -10,6 +10,7 @@ import java.util.Set;
 @Component
 public class ActiveUserStoreImpl implements ActiveUserStore {
     private final Set<String> users = new HashSet<>();
+
     @Override
     public Set<String> getUsers() {
         return Collections.unmodifiableSet(users);

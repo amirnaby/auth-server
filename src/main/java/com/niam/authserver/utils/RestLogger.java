@@ -12,10 +12,9 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class RestLogger {
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Around("execution(* com.behsa.smspanel.*.controller.*.*(..))")
+    @Around("execution(* com.niam.*.controller.*.*(..))")
     public Object logRestControllerExecution(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
 

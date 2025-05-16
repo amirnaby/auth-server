@@ -4,7 +4,6 @@ import com.niam.authserver.filter.JwtAuthFilter;
 import com.niam.authserver.filter.LoginPostProcessingFilter;
 import com.niam.authserver.service.JwtHandler;
 import com.niam.authserver.web.exception.FilterChainExceptionHandler;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -37,11 +36,9 @@ public class SecurityConfig {
     private final HandlerExceptionResolver handlerExceptionResolver;
     private final LogoutSuccessHandler logoutSuccessHandler;
     private final SimpleUrlAuthenticationFailureHandler authenticationFailureHandler;
-
+    private final JwtHandler jwtHandler;
     @Autowired
     private FilterChainExceptionHandler filterChainExceptionHandler;
-
-    private final JwtHandler jwtHandler;
 
     public SecurityConfig(UserDetailsService userDetailsService, LogoutSuccessHandler logoutSuccessHandler,
                           @Qualifier("customAuthenticationEntryPoint") AuthenticationEntryPoint authEntryPoint,
@@ -101,7 +98,6 @@ public class SecurityConfig {
     public LoginPostProcessingFilter loginPostProcessingFilter() {
         return new LoginPostProcessingFilter(handlerExceptionResolver);
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {

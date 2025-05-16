@@ -8,7 +8,6 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
-
     @Override
     public void initialize(final ValidPassword arg0) {
 
@@ -33,5 +32,4 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         context.buildConstraintViolationWithTemplate(Joiner.on(",").join(validator.getMessages(result))).addConstraintViolation();
         return false;
     }
-
 }

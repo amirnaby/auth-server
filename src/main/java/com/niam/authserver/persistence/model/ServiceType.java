@@ -1,9 +1,8 @@
 package com.niam.authserver.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
-
 import jakarta.persistence.*;
+import lombok.*;
 
 @Builder
 @Getter
@@ -19,6 +18,6 @@ public class ServiceType {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "service_type_sequence")
     private Long id;
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String name;
 }

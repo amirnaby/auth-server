@@ -1,7 +1,7 @@
 package com.niam.authserver.web.response;
 
-import com.niam.authserver.web.exception.ResultResponseStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.niam.authserver.web.exception.ResultResponseStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,7 +10,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class ServiceResponse extends BaseService {
-
     private ResultResponse resultResponse;
     private Object data;
 
@@ -54,12 +53,11 @@ public class ServiceResponse extends BaseService {
         this.resultResponse = resultResponse;
     }
 
-    public void setData(Object data) {
-        this.data = data;
-    }
-
     public Object getData() {
         return data;
     }
-}
 
+    public void setData(Object data) {
+        this.data = data;
+    }
+}

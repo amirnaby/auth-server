@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 
 public interface UserService {
-
     User registerNewUserAccount(UserDto accountDto);
 
     void saveRegisteredUser(String username, Map<String, Object> request);
@@ -22,7 +21,7 @@ public interface UserService {
 
     Optional<User> getUserByID(long id);
 
-    Boolean changeUserPassword( PasswordDto passwordDto);
+    Boolean changeUserPassword(PasswordDto passwordDto);
 
     String resetUserPassword(String userName);
 

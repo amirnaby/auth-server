@@ -1,11 +1,9 @@
 package com.niam.authserver.persistence.model;
 
+import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.*;
 
 @SequenceGenerator(name = "refresh_token_sequence", sequenceName = "refresh_token_sequence", allocationSize = 1)
 @Data
@@ -19,11 +17,9 @@ public class RefreshToken {
     @JoinColumn
     private User user;
 
-    @Column(nullable = false, unique = true,columnDefinition="text", length=10485760)
+    @Column(nullable = false, unique = true, columnDefinition = "text", length = 10485760)
     private String token;
 
     @Column(nullable = false)
     private LocalDateTime expiryDate;
-
-
 }

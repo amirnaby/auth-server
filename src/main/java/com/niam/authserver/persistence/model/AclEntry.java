@@ -1,8 +1,7 @@
 package com.niam.authserver.persistence.model;
 
-import jakarta.persistence.*;
-
 import com.niam.authserver.persistence.utils.PermissionConverter;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @SequenceGenerator(name = "acl_entry_sequence", sequenceName = "acl_entry_sequence", allocationSize = 1)
@@ -23,10 +22,10 @@ public class AclEntry {
     private Role role;
     @Convert(converter = PermissionConverter.class)
     private SimplePermission mask;
-//    @Column(columnDefinition="NUMBER(1)")
+    //    @Column(columnDefinition="NUMBER(1)")
     private boolean granting;
-//    @Column(columnDefinition="NUMBER(1)")
+    //    @Column(columnDefinition="NUMBER(1)")
     private boolean auditSuccess;
-//    @Column(columnDefinition="NUMBER(1)")
+    //    @Column(columnDefinition="NUMBER(1)")
     private boolean auditFailure;
 }

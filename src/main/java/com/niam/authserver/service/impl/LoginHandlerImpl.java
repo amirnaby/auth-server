@@ -11,13 +11,14 @@ import com.niam.authserver.utils.SmsPanelRepository;
 import com.niam.authserver.web.dto.JwtResponse;
 import com.niam.authserver.web.dto.LoginDto;
 import com.niam.authserver.web.dto.LogoutDto;
+import com.niam.authserver.web.exception.ResultResponseStatus;
 import com.niam.authserver.web.exception.TokenException;
 import com.niam.authserver.web.exception.UserNotFoundException;
 import com.niam.authserver.web.request.TokenRefreshRequest;
-import com.niam.authserver.web.exception.ResultResponseStatus;
 import com.niam.authserver.web.response.TokenRefreshResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache;
@@ -32,7 +33,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
@@ -42,24 +42,23 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class LoginHandlerImpl implements LoginHandler {
-    @Value("${sms-panel.security.jwt-refresh-expiration-second}")
-    private Long refreshTokenDuration;
-    @Value("${sms-panel.security.jwt-secret}")
-    private String jwtSecret;
     private final AuthenticationManager authenticationManager;
     private final JwtHandler jwtHandler;
     private final CacheService cacheService;
     private final MessageUtil messageUtil;
-
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
+    @Value("${auth-server.security.jwt-refresh-expiration-second}")
+    private Long refreshTokenDuration;
+    @Value("${auth-server.security.jwt-secret}")
+    private String jwtSecret;
 
     @Override
     public JwtResponse authenticate(LoginDto loginDto, HttpServletRequest request) {
         try {
             Authentication authentication = doAuthenticate(loginDto, request);
             UserDetails userDetails = ((UserDetails) authentication.getPrincipal());
-            JwtResponse jwtResponse= generateAndCacheToken(userDetails);
+            JwtResponse jwtResponse = generateAndCacheToken(userDetails);
             RefreshToken refreshToken = createRefreshToken(userDetails);
             jwtResponse.setRefreshToken(refreshToken.getToken());
             return jwtResponse;
@@ -112,6 +111,7 @@ public class LoginHandlerImpl implements LoginHandler {
             Assert.notNull(token, messageUtil.getMessage("auth.message.invalidToken"));
         }
     }
+
     public RefreshToken createRefreshToken(UserDetails userDetails) {
         RefreshToken refreshToken = new RefreshToken();
 
@@ -122,19 +122,22 @@ public class LoginHandlerImpl implements LoginHandler {
         refreshToken = refreshTokenRepository.save(refreshToken);
         return refreshToken;
     }
+
     private String generateRefreshTokenFromUsername(String username) {
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setIssuer("sms-panel")
+                .setIssuer("auth-server")
                 .setSubject(username).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + refreshTokenDuration* 1000))
+                .setExpiration(new Date((new Date()).getTime() + refreshTokenDuration * 1000))
                 .signWith(key())
                 .compact();
     }
+
     private Key key() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
-    public TokenRefreshResponse getTokenByRefreshToken(TokenRefreshRequest request){
+
+    public TokenRefreshResponse getTokenByRefreshToken(TokenRefreshRequest request) {
         String requestRefreshToken = request.getRefreshToken();
         return findByToken(requestRefreshToken)
                 .map(this::verifyExpiration)
@@ -148,6 +151,7 @@ public class LoginHandlerImpl implements LoginHandler {
                         messageUtil.getMessage(ResultResponseStatus.REFRESH_TOKEN_IS_NOT_IN_DATABASE.getDescription(), requestRefreshToken)
                 ));
     }
+
     private RefreshToken verifyExpiration(RefreshToken token) {
         if (token.getExpiryDate().compareTo((LocalDateTime.now())) < 0) {
             refreshTokenRepository.delete(token);
@@ -155,9 +159,9 @@ public class LoginHandlerImpl implements LoginHandler {
                     ResultResponseStatus.TOKEN_EXPIRED.getStatus()),
                     ResultResponseStatus.TOKEN_EXPIRED.getDescription());
         }
-
         return token;
     }
+
     private Optional<RefreshToken> findByToken(String token) {
         return refreshTokenRepository.findByToken(token);
     }

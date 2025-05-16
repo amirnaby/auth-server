@@ -1,7 +1,7 @@
 package com.niam.authserver.service.impl;
 
-import com.niam.authserver.persistence.model.Role;
 import com.niam.authserver.persistence.dao.RoleRepository;
+import com.niam.authserver.persistence.model.Role;
 import com.niam.authserver.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

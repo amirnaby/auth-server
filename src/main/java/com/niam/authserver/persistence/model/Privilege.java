@@ -1,7 +1,6 @@
 package com.niam.authserver.persistence.model;
 
 import jakarta.persistence.*;
-
 import lombok.Data;
 
 import java.util.Collection;
@@ -30,7 +29,7 @@ public class Privilege {
     @JoinColumn(name = "parent_object")
     private Privilege parentPrivilege;
 
-//    @Column(columnDefinition="NUMBER(1)")
+    //    @Column(columnDefinition="NUMBER(1)")
     private boolean entriesInheriting;
 
     @OneToMany(mappedBy = "aclObjectIdentity")

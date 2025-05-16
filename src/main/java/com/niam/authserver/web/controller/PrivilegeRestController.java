@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 public class PrivilegeRestController {
-    
     private final PrivilegeService privilegeService;
-
     private final ResponseEntityUtil responseEntityUtil;
 
     @PutMapping("/{id}")
@@ -34,8 +32,8 @@ public class PrivilegeRestController {
     public ResponseEntity<ServiceResponse> getAllPrivileges(@RequestBody Privilege privilege,
                                                             @RequestParam(required = false) Integer page,
                                                             @RequestParam(required = false) Integer size) {
-        page = (page == null? 0 : page);
-        size = (size == null? 10 : size);
+        page = (page == null ? 0 : page);
+        size = (size == null ? 10 : size);
         return responseEntityUtil.ok(privilegeService.findAll(privilege, PageRequest.of(page, size)));
     }
 }

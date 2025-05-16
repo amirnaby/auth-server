@@ -20,7 +20,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import java.util.Locale;
 
 @Configuration
-@ComponentScan(basePackages = { "com.behsa.smspanel.authserver.web" })
+@ComponentScan(basePackages = {"com.niam.authserver.web.controller"})
 @EnableWebMvc
 @RequiredArgsConstructor
 public class MvcConfig implements WebMvcConfigurer {
@@ -52,15 +52,12 @@ public class MvcConfig implements WebMvcConfigurer {
                 .allowedMethods("*");
     }
 
-    // beans
-
     @Bean
     public LocaleResolver localeResolver() {
         final CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.getDefault());
         return cookieLocaleResolver;
     }
-
 
     @Bean
     @ConditionalOnMissingBean(RequestContextListener.class)
