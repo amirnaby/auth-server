@@ -17,7 +17,7 @@ public class CustomSimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthen
 
     public void onAuthenticationFailure(final HttpServletRequest request, final HttpServletResponse response, final AuthenticationException exception) throws IOException, ServletException {
         saveException(request, exception);
-//        setDefaultFailureUrl(defaultFailureUrl);
+        setDefaultFailureUrl(defaultFailureUrl);
         super.onAuthenticationFailure(request, response, exception);
     }
 }

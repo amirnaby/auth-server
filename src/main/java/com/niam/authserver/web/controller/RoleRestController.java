@@ -2,8 +2,8 @@ package com.niam.authserver.web.controller;
 
 import com.niam.authserver.persistence.model.Role;
 import com.niam.authserver.service.RoleService;
-import com.niam.authserver.utils.ResponseEntityUtil;
-import com.niam.authserver.web.response.ServiceResponse;
+import com.niam.commonservice.utils.ResponseEntityUtil;
+import com.niam.commonservice.model.response.ServiceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

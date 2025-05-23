@@ -6,8 +6,8 @@ import com.niam.authserver.persistence.model.RefreshToken;
 import com.niam.authserver.service.CacheService;
 import com.niam.authserver.service.JwtHandler;
 import com.niam.authserver.service.LoginHandler;
-import com.niam.authserver.utils.MessageUtil;
-import com.niam.authserver.utils.SmsPanelRepository;
+import com.niam.commonservice.utils.MessageUtil;
+import com.niam.authserver.utils.CacheRepository;
 import com.niam.authserver.web.dto.JwtResponse;
 import com.niam.authserver.web.dto.LoginDto;
 import com.niam.authserver.web.dto.LogoutDto;
@@ -70,7 +70,7 @@ public class LoginHandlerImpl implements LoginHandler {
 
     public JwtResponse generateAndCacheToken(UserDetails userDetails) {
         JwtResponse jwtResponse = jwtHandler.generateJwtResponse(userDetails);
-        Cache tokenCache = cacheService.getCache(SmsPanelRepository.TOKEN_CACHE);
+        Cache tokenCache = cacheService.getCache(CacheRepository.TOKEN_CACHE);
         tokenCache.put(userDetails.getUsername(), jwtResponse);
         return jwtResponse;
     }
@@ -78,7 +78,7 @@ public class LoginHandlerImpl implements LoginHandler {
     private Authentication doAuthenticate(LoginDto loginDto, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
         token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        Authentication authentication = null;
+        Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(token);
         } catch (BadCredentialsException e) {
@@ -90,7 +90,7 @@ public class LoginHandlerImpl implements LoginHandler {
 
     @Override
     public void invalidateToken(String username) {
-        Cache tokenCache = cacheService.getCache(SmsPanelRepository.TOKEN_CACHE);
+        Cache tokenCache = cacheService.getCache(CacheRepository.TOKEN_CACHE);
         tokenCache.evictIfPresent(username);
         jwtHandler.deleteByUserName(username);
     }
@@ -153,7 +153,7 @@ public class LoginHandlerImpl implements LoginHandler {
     }
 
     private RefreshToken verifyExpiration(RefreshToken token) {
-        if (token.getExpiryDate().compareTo((LocalDateTime.now())) < 0) {
+        if (token.getExpiryDate().isBefore((LocalDateTime.now()))) {
             refreshTokenRepository.delete(token);
             throw new TokenException(String.valueOf(
                     ResultResponseStatus.TOKEN_EXPIRED.getStatus()),

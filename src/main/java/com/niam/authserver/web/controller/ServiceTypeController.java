@@ -2,9 +2,9 @@ package com.niam.authserver.web.controller;
 
 import com.niam.authserver.persistence.dao.ServiceTypeRepository;
 import com.niam.authserver.persistence.model.ServiceType;
-import com.niam.authserver.utils.MessageUtil;
-import com.niam.authserver.utils.ResponseEntityUtil;
-import com.niam.authserver.web.response.ServiceResponse;
+import com.niam.commonservice.utils.MessageUtil;
+import com.niam.commonservice.utils.ResponseEntityUtil;
+import com.niam.commonservice.model.response.ServiceResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +22,7 @@ public class ServiceTypeController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<ServiceResponse> saveServiceType(@RequestBody ServiceType serviceType) {
-        return responseEntityUtil.ok(
-//                serviceTypeRepository.save(serviceType)
-        );
+        return responseEntityUtil.ok(serviceTypeRepository.save(serviceType));
     }
 
     @DeleteMapping

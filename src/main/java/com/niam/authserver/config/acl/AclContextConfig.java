@@ -1,6 +1,6 @@
 package com.niam.authserver.config.acl;
 
-import com.niam.authserver.utils.SmsPanelRepository;
+import com.niam.authserver.utils.CacheRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
@@ -52,7 +52,7 @@ public class AclContextConfig {
     @Bean
     public AclCache aclCache(final PermissionGrantingStrategy permissionGrantingStrategy,
                              final AclAuthorizationStrategy aclAuthorizationStrategy) {
-        return new SpringCacheBasedAclCache(cacheManager.getCache(SmsPanelRepository.ACL_CACHE), permissionGrantingStrategy, aclAuthorizationStrategy);
+        return new SpringCacheBasedAclCache(cacheManager.getCache(CacheRepository.ACL_CACHE), permissionGrantingStrategy, aclAuthorizationStrategy);
     }
 
     @Bean

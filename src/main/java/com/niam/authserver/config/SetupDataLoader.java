@@ -24,7 +24,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private boolean alreadySetup = false;
 
     @Override
-    @Transactional
+    @Transactional("transactionManager")
     public void onApplicationEvent(final ContextRefreshedEvent event) {
         if (alreadySetup) {
             return;
@@ -37,7 +37,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         alreadySetup = true;
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public Role createRoleIfNotFound(final String name) {
         Role role = roleRepository.findByName(name);
         if (role == null) {
@@ -47,8 +47,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         return role;
     }
 
-    @Transactional
-    public User createUserIfNotFound(final String username, final String firstName, final String lastName, final String password, final Collection<Role> roles) {
+    @Transactional("transactionManager")
+    public void createUserIfNotFound(final String username, final String firstName, final String lastName, final String password, final Collection<Role> roles) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
             user = new User();
@@ -62,6 +62,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             user.setCredentialsNonExpired(true);
             user.setRoles(roles);
         }
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 }

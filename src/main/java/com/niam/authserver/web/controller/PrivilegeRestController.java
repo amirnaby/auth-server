@@ -2,8 +2,8 @@ package com.niam.authserver.web.controller;
 
 import com.niam.authserver.persistence.model.Privilege;
 import com.niam.authserver.service.PrivilegeService;
-import com.niam.authserver.utils.ResponseEntityUtil;
-import com.niam.authserver.web.response.ServiceResponse;
+import com.niam.commonservice.utils.ResponseEntityUtil;
+import com.niam.commonservice.model.response.ServiceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;

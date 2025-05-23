@@ -1,6 +1,6 @@
 package com.niam.authserver.web.exception;
 
-import com.niam.authserver.utils.MessageUtil;
+import com.niam.commonservice.utils.MessageUtil;
 import com.niam.authserver.web.dto.ErrorResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({ApplicationException.class})
     public ResponseEntity<ErrorResponse> handleApplicationException(ApplicationException e) {
         logger.info("handle Application exception");
-        e.printStackTrace();
+        e.getLocalizedMessage();
         return ResponseEntity.internalServerError().body(
                 ErrorResponse.builder()
                         .code(e.getCode())
@@ -31,7 +31,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({LoginAuthenticationException.class})
     public ResponseEntity<ErrorResponse> handleLoginAuthenticationException(LoginAuthenticationException e) {
         logger.info("handle Authentication exception");
-        e.printStackTrace();
+        e.getLocalizedMessage();
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
                 ErrorResponse.builder()
                         .code(e.getCode())
@@ -75,7 +75,7 @@ public class ApplicationExceptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         logger.info("handle exception");
-        e.printStackTrace();
+        e.getLocalizedMessage();
         return ResponseEntity.internalServerError().body(
                 ErrorResponse.builder()
                         .code("500")

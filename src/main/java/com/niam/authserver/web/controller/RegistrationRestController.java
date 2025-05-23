@@ -1,10 +1,10 @@
 package com.niam.authserver.web.controller;
 
 import com.niam.authserver.service.UserService;
-import com.niam.authserver.utils.ResponseEntityUtil;
+import com.niam.commonservice.utils.ResponseEntityUtil;
 import com.niam.authserver.web.dto.PasswordDto;
 import com.niam.authserver.web.dto.UserDto;
-import com.niam.authserver.web.response.ServiceResponse;
+import com.niam.commonservice.model.response.ServiceResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

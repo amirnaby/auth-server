@@ -3,9 +3,8 @@ package com.niam.authserver.web.controller;
 import com.niam.authserver.persistence.dao.BusinessSystemRepository;
 import com.niam.authserver.persistence.model.BusinessSystem;
 import com.niam.authserver.service.BusinessSystemService;
-import com.niam.authserver.utils.ResponseEntityUtil;
-import com.niam.authserver.web.response.ServiceResponse;
-import jakarta.servlet.http.HttpServletRequest;
+import com.niam.commonservice.model.response.ServiceResponse;
+import com.niam.commonservice.utils.ResponseEntityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,7 +20,7 @@ public class BusinessSystemRestController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    public ResponseEntity<ServiceResponse> getById(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<ServiceResponse> getById(@PathVariable Long id) {
         return responseEntityUtil.ok(businessSystemRepository.findById(id).orElse(null));
     }
 

@@ -5,10 +5,10 @@ import com.niam.authserver.persistence.dao.UserRepository;
 import com.niam.authserver.persistence.model.User;
 import com.niam.authserver.service.CacheService;
 import com.niam.authserver.service.JwtHandler;
-import com.niam.authserver.utils.MessageUtil;
-import com.niam.authserver.utils.SmsPanelRepository;
+import com.niam.authserver.utils.CacheRepository;
 import com.niam.authserver.web.dto.JwtResponse;
 import com.niam.authserver.web.exception.InvalidTokenException;
+import com.niam.commonservice.utils.MessageUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -50,7 +50,7 @@ public class JwtHandlerImpl implements JwtHandler {
 
     @Override
     public void isAlreadyLoggedInWithJwt(String username, String token) {
-        Cache tokenCache = cacheService.getCache(SmsPanelRepository.TOKEN_CACHE);
+        Cache tokenCache = cacheService.getCache(CacheRepository.TOKEN_CACHE);
         JwtResponse jwtResponse = tokenCache.get(username, JwtResponse.class);
         token = token.replace("Bearer ", "");
         if (jwtResponse == null || !jwtResponse.getAccessToken().equals(token))
@@ -87,9 +87,10 @@ public class JwtHandlerImpl implements JwtHandler {
                 .compact();
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public int deleteByUserName(String username) {
         User user = userRepository.findByUsername(username);
-        return refreshTokenRepository.deleteByUser(userRepository.findById(user.getId()).get());
+        return refreshTokenRepository.deleteByUser(userRepository.findById(user.getId()).isPresent()
+                ? userRepository.findById(user.getId()).get() : null);
     }
 }

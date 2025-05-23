@@ -4,8 +4,8 @@ import cn.apiclub.captcha.Captcha;
 import com.niam.authserver.service.CacheService;
 import com.niam.authserver.service.CaptchaService;
 import com.niam.authserver.utils.CaptchaUtil;
-import com.niam.authserver.utils.MessageUtil;
-import com.niam.authserver.utils.SmsPanelRepository;
+import com.niam.commonservice.utils.MessageUtil;
+import com.niam.authserver.utils.CacheRepository;
 import com.niam.authserver.web.dto.CaptchaDetails;
 import com.niam.authserver.web.exception.CaptchaIsWrongException;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public void validate(String token, String input) {
-        Cache captchaCache = cacheService.getCache(SmsPanelRepository.CAPTCHA_CACHE);
+        Cache captchaCache = cacheService.getCache(CacheRepository.CAPTCHA_CACHE);
         String cachedInput = captchaCache.get(token, String.class);
         captchaCache.evictIfPresent(token);
         if (input == null || !input.equals(cachedInput)) {
@@ -32,7 +32,7 @@ public class CaptchaServiceImpl implements CaptchaService {
 
     @Override
     public CaptchaDetails generateCaptcha() {
-        Cache captchaCache = cacheService.getCache(SmsPanelRepository.CAPTCHA_CACHE);
+        Cache captchaCache = cacheService.getCache(CacheRepository.CAPTCHA_CACHE);
         Captcha captcha = CaptchaUtil.createCaptcha(240, 70);
         String captchaStr = "data:realCaptcha/jpg;base64," + CaptchaUtil.encodeCaptcha(captcha);
         String uuid = UUID.randomUUID().toString();

@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service("userDetailsService")
-@Transactional
+@Transactional("transactionManager")
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     private final LoginAttemptService loginAttemptService;
